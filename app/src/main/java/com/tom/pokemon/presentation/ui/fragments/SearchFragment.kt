@@ -9,10 +9,13 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
@@ -25,12 +28,14 @@ import com.tom.pokemon.databinding.FragmentSearchBinding
 import com.tom.pokemon.databinding.ItemPokemonDetailBinding
 import com.tom.pokemon.domain.entity.PokeMonDetail
 import com.tom.pokemon.presentation.viewmodels.SearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.item_pokemon_detail.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
-    private val viewModel by sharedViewModel<SearchViewModel>() //fragment에서 viewModel을 최초로 생성
+    private val viewModel by viewModels<SearchViewModel>() //fragment에서 viewModel을 최초로 생성
 //    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
     override fun onCreateView(
@@ -46,6 +51,12 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.searchFragment.isEnabled = false
+
+        binding.searchFragment.setOnClickListener{
+            Toast.makeText(requireContext(), "Clicked!", Toast.LENGTH_LONG).show()
+        }
+
         binding.editTextSearch.addTextChangedListener {
             viewModel.searchPokeMons(it?.toString() ?: return@addTextChangedListener)
         }
@@ -53,6 +64,7 @@ class SearchFragment : Fragment() {
         binding.recyclerView.adapter = SearchAdapter().apply {
             itemOnClick = {
                 binding.root.hideKeyboard()
+                Log.e("click", "onClick")
                 viewModel.selectPokeMon(it.id, it.name)
             }
         }

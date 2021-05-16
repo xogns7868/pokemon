@@ -9,8 +9,9 @@ import com.tom.pokemon.domain.entity.PokeMonDetail
 import com.tom.pokemon.data.model.PokeMonLocationResponse
 import com.tom.pokemon.data.model.PokeMonResponse
 import java.lang.Exception
+import javax.inject.Inject
 
-class PokeMonRepositoryImpl(
+class PokeMonRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) : PokeMonRepository {
 

@@ -5,11 +5,13 @@ import com.tom.pokemon.data.handler.ResponseHandler
 import com.tom.pokemon.domain.repository.PokeMonRepository
 import com.tom.pokemon.domain.entity.PokeMonDetail
 import java.lang.Exception
+import javax.inject.Inject
 
-class GetPokeMonDetail(
+class GetPokeMonDetail @Inject constructor(
     private val pokeMonRepository: PokeMonRepository,
     private val responseHandler: ResponseHandler
 ) {
+
     suspend operator fun invoke(id: Int, name: String): Resource<PokeMonDetail> {
         return try{
             responseHandler.handleSuccess(pokeMonRepository.getPokeMonDetail(id).apply {

@@ -14,11 +14,14 @@ import androidx.navigation.fragment.findNavController
 import com.tom.pokemon.R
 import com.tom.pokemon.databinding.ItemPokemonDetailBinding
 import com.tom.pokemon.presentation.viewmodels.SearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class PokeMonDetailDialog : DialogFragment() {
 
-    private val viewModel by sharedViewModel<SearchViewModel>()
+    private val viewModel: SearchViewModel by viewModels()
     private lateinit var itemPokemonDetailBinding: ItemPokemonDetailBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

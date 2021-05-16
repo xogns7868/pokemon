@@ -10,7 +10,9 @@ import androidx.core.content.ContextCompat
 import com.tom.pokemon.R
 import com.tom.pokemon.base.BaseActivity
 import com.tom.pokemon.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
     private val binding by binding<ActivityMainBinding>(R.layout.activity_main)

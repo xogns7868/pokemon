@@ -7,8 +7,9 @@ import com.tom.pokemon.data.service.PokeMonDetailService
 import com.tom.pokemon.data.service.PokeMonService
 import com.tom.pokemon.domain.entity.PokeMonDetail
 import com.tom.pokemon.data.model.PokeMonResponse
+import javax.inject.Inject
 
-class RemoteDataSourceImpl(
+class RemoteDataSourceImpl @Inject constructor(
     private val pokeMonService: PokeMonService,
     private val pokeMonNameCache: PokeMonNameCache,
     private val pokeMonDetailService: PokeMonDetailService

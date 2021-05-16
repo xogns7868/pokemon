@@ -5,8 +5,9 @@ import com.tom.pokemon.data.handler.ResponseHandler
 import com.tom.pokemon.domain.entity.PokeMonDetail
 import com.tom.pokemon.domain.repository.PokeMonRepository
 import java.lang.Exception
+import javax.inject.Inject
 
-class MakeSearchList(
+class MakeSearchList @Inject constructor(
     private val pokeMonRepository: PokeMonRepository,
     private val responseHandler: ResponseHandler
 ) {

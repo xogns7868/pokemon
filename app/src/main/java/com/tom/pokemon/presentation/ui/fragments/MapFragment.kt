@@ -16,6 +16,10 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.location.LocationServices.getFusedLocationProviderClient
@@ -33,11 +37,17 @@ import com.tom.pokemon.databinding.FragmentMapBinding
 import com.tom.pokemon.domain.entity.PokeMonDetail
 import com.tom.pokemon.presentation.utils.REQUEST_CODE
 import com.tom.pokemon.presentation.utils.isPermissionGranted
+import com.tom.pokemon.presentation.viewmodels.SearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class MapFragment(private val pokeMonDetail: PokeMonDetail) : Fragment(), OnMapReadyCallback{
     private lateinit var binding: FragmentMapBinding
     private lateinit var googleMap: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+//    private val viewModel by viewModel<SearchViewModel>()
+    private val viewModel by activityViewModels<SearchViewModel>()
 
     val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 
@@ -48,6 +58,7 @@ class MapFragment(private val pokeMonDetail: PokeMonDetail) : Fragment(), OnMapR
     ): View? {
         binding = FragmentMapBinding.inflate(inflater, container, false)
         val view = binding.root
+
         return view
     }
 
@@ -63,9 +74,12 @@ class MapFragment(private val pokeMonDetail: PokeMonDetail) : Fragment(), OnMapR
 
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap = googleMap
-        if(pokeMonDetail.location != null) {
-            addLocation(pokeMonDetail.location!!)
+        viewModel.pokeMonDetail.observe(viewLifecycleOwner){
+            addLocation(it.data!!.location!!)
         }
+//        if(pokeMonDetail.location != null) {
+//            addLocation(pokeMonDetail.location!!)
+//        }
     }
 
     private fun addLocation(list: List<PokeMonLocation>){
